@@ -1,0 +1,11 @@
+server/.venv/
+server/data/
+web/node_modules
+web/node_modules.nosync/
+web/dist/
+end_user_wep/node_modules
+end_user_wep/data/
+kiosk/.venv/
+__pycache__/
+*.pyc
+.DS_Store

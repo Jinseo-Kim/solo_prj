@@ -1,0 +1,84 @@
+{
+  // 명령 팔레트(Ctrl/Cmd+Shift+P) → "Tasks: Run Task" → "LastGate: 전체 실행"
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "LastGate: 브로커",
+      "type": "shell",
+      "command": "mosquitto -c broker/mosquitto.conf -v",
+      "windows": { "command": "& 'C:\\Program Files\\mosquitto\\mosquitto.exe' -c broker/mosquitto.conf -v" },
+      "isBackground": true,
+      "problemMatcher": [],
+      "presentation": { "group": "lastgate", "panel": "dedicated" }
+    },
+    {
+      "label": "LastGate: 서버",
+      "type": "shell",
+      "command": "${workspaceFolder}/server/.venv/bin/python server.py",
+      "windows": { "command": "${workspaceFolder}\\server\\.venv\\Scripts\\python.exe server.py" },
+      "options": { "cwd": "${workspaceFolder}/server" },
+      "isBackground": true,
+      "problemMatcher": [],
+      "presentation": { "group": "lastgate", "panel": "dedicated" }
+    },
+    {
+      "label": "LastGate: FMS 대역",
+      "type": "shell",
+      "command": "${workspaceFolder}/server/.venv/bin/python -m tools.fms_stub",
+      "windows": { "command": "${workspaceFolder}\\server\\.venv\\Scripts\\python.exe -m tools.fms_stub" },
+      "options": { "cwd": "${workspaceFolder}/server" },
+      "isBackground": true,
+      "problemMatcher": [],
+      "presentation": { "group": "lastgate", "panel": "dedicated" }
+    },
+    {
+      "label": "LastGate: 웹",
+      "type": "shell",
+      "command": "npm run dev",
+      "options": { "cwd": "${workspaceFolder}/web" },
+      "isBackground": true,
+      "problemMatcher": [],
+      "presentation": { "group": "lastgate", "panel": "dedicated" }
+    },
+    {
+      "label": "LastGate: 세대 웹",
+      "type": "shell",
+      "command": "npm start",
+      "options": { "cwd": "${workspaceFolder}/end_user_wep" },
+      "isBackground": true,
+      "problemMatcher": [],
+      "presentation": { "group": "lastgate", "panel": "dedicated" }
+    },
+    {
+      "label": "LastGate: 전체 실행",
+      "dependsOn": ["LastGate: 브로커", "LastGate: 서버", "LastGate: FMS 대역", "LastGate: 웹", "LastGate: 세대 웹"],
+      "dependsOrder": "parallel",
+      "problemMatcher": []
+    },
+    {
+      "label": "LastGate: 테스트 택배 12건",
+      "type": "shell",
+      "command": "${workspaceFolder}/server/.venv/bin/python -m tools.seed_packages 12",
+      "windows": { "command": "${workspaceFolder}\\server\\.venv\\Scripts\\python.exe -m tools.seed_packages 12" },
+      "options": { "cwd": "${workspaceFolder}/server" },
+      "problemMatcher": []
+    },
+    {
+      "label": "LastGate: 서버 단위 테스트",
+      "type": "shell",
+      "command": "${workspaceFolder}/server/.venv/bin/python -m unittest discover tests",
+      "windows": { "command": "${workspaceFolder}\\server\\.venv\\Scripts\\python.exe -m unittest discover tests" },
+      "options": { "cwd": "${workspaceFolder}/server" },
+      "problemMatcher": [],
+      "group": "test"
+    },
+    {
+      "label": "LastGate: 세대 웹 테스트",
+      "type": "shell",
+      "command": "npm test",
+      "options": { "cwd": "${workspaceFolder}/end_user_wep" },
+      "problemMatcher": [],
+      "group": "test"
+    }
+  ]
+}
